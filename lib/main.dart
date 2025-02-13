@@ -1,40 +1,36 @@
 import 'package:flutter/material.dart';
-import 'constants/colors.dart';
+import 'board.dart';
 import 'home_page.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  MyColors myColors = MyColors();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: myColors.lightGrey,
-        appBar: AppBar(
-          backgroundColor: myColors.lightGrey,
-          title: Text(
-            "LaunchPad",
-            style: TextStyle(
-              fontFamily: "Pacifico",
-              color: MyColors().white,
+      title: "LaunchPad",
+      debugShowCheckedModeBanner: false,
+      home: SafeArea(
+        child: Scaffold(
+          backgroundColor: Color(0xff333333),
+          appBar: AppBar(
+            backgroundColor: Color(0xff333333),
+            title: Text(
+              "LaunchPad",
+              style: TextStyle(
+                fontFamily: "Pacifico",
+                color: Colors.white,
+              ),
             ),
           ),
+          body: HomePage(),
+          // body: Board(),
         ),
-        body: HomePage(),
       ),
     );
   }
 }
-
-// Permanent Marker

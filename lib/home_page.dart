@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:launchpad/constants/colors.dart';
 import 'package:just_audio/just_audio.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,7 +9,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List _soundNo = [
+  final List noteList = [
     "sound/1.mp3",
     "sound/2.mp3",
     "sound/3.mp3",
@@ -40,32 +39,102 @@ class _HomePageState extends State<HomePage> {
     "sound/27.wav",
     "sound/28.wav"
   ];
-
-  final player = AudioPlayer();
+  List radialGradientList = [
+    RadialGradient(colors: [Color(0xffADCBFC), Color(0xff067CCB)]),
+    RadialGradient(colors: [Color(0xffff2525), Color(0xffc40050)]),
+    RadialGradient(colors: [Color(0xffADCBFC), Color(0xff067CCB)]),
+    RadialGradient(colors: [Color(0xffE247FC), Color(0xffA23AB7)]),
+    RadialGradient(colors: [Color(0xffADCBFC), Color(0xff067CCB)]),
+    RadialGradient(colors: [Color(0xffff2525), Color(0xffc40050)]),
+    RadialGradient(colors: [Color(0xffADCBFC), Color(0xff067CCB)]),
+    RadialGradient(colors: [Color(0xffE247FC), Color(0xffA23AB7)]),
+    RadialGradient(colors: [Color(0xffADCBFC), Color(0xff067CCB)]),
+    RadialGradient(colors: [Color(0xffff2525), Color(0xffc40050)]),
+    RadialGradient(colors: [Color(0xffADCBFC), Color(0xff067CCB)]),
+    RadialGradient(colors: [Color(0xffE247FC), Color(0xffA23AB7)]),
+    RadialGradient(colors: [Color(0xffADCBFC), Color(0xff067CCB)]),
+    RadialGradient(colors: [Color(0xffff2525), Color(0xffc40050)]),
+    RadialGradient(colors: [Color(0xffADCBFC), Color(0xff067CCB)]),
+    RadialGradient(colors: [Color(0xffE247FC), Color(0xffA23AB7)]),
+    RadialGradient(colors: [Color(0xffADCBFC), Color(0xff067CCB)]),
+    RadialGradient(colors: [Color(0xffff2525), Color(0xffc40050)]),
+    RadialGradient(colors: [Color(0xffADCBFC), Color(0xff067CCB)]),
+    RadialGradient(colors: [Color(0xffE247FC), Color(0xffA23AB7)]),
+    RadialGradient(colors: [Color(0xffADCBFC), Color(0xff067CCB)]),
+    RadialGradient(colors: [Color(0xffff2525), Color(0xffc40050)]),
+    RadialGradient(colors: [Color(0xffADCBFC), Color(0xff067CCB)]),
+    RadialGradient(colors: [Color(0xffE247FC), Color(0xffA23AB7)]),
+    RadialGradient(colors: [Color(0xffADCBFC), Color(0xff067CCB)]),
+    RadialGradient(colors: [Color(0xffff2525), Color(0xffc40050)]),
+    RadialGradient(colors: [Color(0xffADCBFC), Color(0xff067CCB)]),
+    RadialGradient(colors: [Color(0xffE247FC), Color(0xffA23AB7)]),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GridView.builder(
-        itemCount: _soundNo.length,
+        itemCount: noteList.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 4, mainAxisSpacing: 8, crossAxisSpacing: 8),
         itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () async {
-              await Future.delayed(const Duration(milliseconds: 500));
-              await player.setAsset(_soundNo[index]);
-              player.play();
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                gradient: MyColors().radialGradientList[index],
-              ),
-            ),
-          );
+          return Pad(noteList[index].toString(), radialGradientList[index]);
         },
+      ),
+    );
+  }
+}
+
+class Pad extends StatefulWidget {
+  final note;
+  final radialGradiant;
+
+  const Pad(this.note, this.radialGradiant, {super.key});
+
+  @override
+  State<Pad> createState() => _PadState();
+}
+
+class _PadState extends State<Pad> {
+  late String _note;
+  late RadialGradient _radialGradient;
+
+  @override
+  void initState() {
+    _note = widget.note;
+    _radialGradient = widget.radialGradiant;
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var radialGradientDefault = RadialGradient(
+      colors: [Colors.white, Colors.white],
+    );
+
+    final player = AudioPlayer();
+
+    return GestureDetector(
+      onTap: () async {
+        setState(() {
+          _radialGradient = radialGradientDefault;
+          player.setAsset(_note);
+          player.play();
+        });
+        await Future.delayed(
+          const Duration(milliseconds: 500),
+        );
+        setState(() {
+          _radialGradient = widget.radialGradiant;
+        });
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          gradient: _radialGradient,
+        ),
       ),
     );
   }
